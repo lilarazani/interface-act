@@ -42,7 +42,7 @@ const Login = () => {
             <h1 className="text-2xl font-bold text-foreground">Digi&apos;Skin Monitor</h1>
           </div>
           <p className="text-muted-foreground">
-            Système de surveillance des capteurs de force
+            Installation du dispositif médical
           </p>
         </div>
 
