@@ -38,7 +38,7 @@ const Login = () => {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <img src="/lovable-uploads/b5fd8885-3945-4dc1-81dd-93ec80043a93.png" alt="Digi'Skin Logo" className="h-8 object-contain" />
+            <img src="/lovable-uploads/e8a4b987-cc7a-4e51-a01e-ac81f1690bea.png" alt="Digi'Skin Logo" className="h-8 object-contain" />
             <h1 className="text-2xl font-bold text-foreground">Digi&apos;Skin Monitor</h1>
           </div>
           <p className="text-muted-foreground">
