@@ -44,7 +44,7 @@ const Dashboard = () => {
             <div className="flex items-center gap-3">
               <Activity className="h-6 w-6 text-primary" />
               <div>
-                <h1 className="text-xl font-semibold text-foreground">FSR Monitor Dashboard</h1>
+                <h1 className="text-xl font-semibold text-foreground">Digi&apos;Skin Monitor Dashboard</h1>
                 <p className="text-sm text-muted-foreground">
                   Patient: {patientId} • Dispositif: {deviceRef}
                 </p>
