@@ -39,7 +39,7 @@ const Login = () => {
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Activity className="h-8 w-8 text-primary" />
-            <h1 className="text-2xl font-bold text-foreground">FSR Monitor</h1>
+            <h1 className="text-2xl font-bold text-foreground">Digi&apos;Skin Monitor</h1>
           </div>
           <p className="text-muted-foreground">
             Système de surveillance des capteurs de force
