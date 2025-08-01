@@ -42,7 +42,7 @@ const Dashboard = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <img src="/lovable-uploads/1c1c3732-d4e8-4afd-8620-81ec7744419f.png" alt="Digi'Skin Logo" className="h-6 object-contain" />
+              <img src="/lovable-uploads/b5fd8885-3945-4dc1-81dd-93ec80043a93.png" alt="Digi'Skin Logo" className="h-6 object-contain" />
               <div>
                 <h1 className="text-xl font-semibold text-foreground">Digi&apos;Skin Monitor Dashboard</h1>
                 <p className="text-sm text-muted-foreground">
