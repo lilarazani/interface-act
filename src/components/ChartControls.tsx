@@ -18,9 +18,7 @@ interface ChartControlsProps {
     bgColor: string;
   }>;
   thresholds: {
-    sensor1: { warning: number; danger: number };
-    sensor2: { warning: number; danger: number };
-    sensor3: { warning: number; danger: number };
+    general: { warning: number };
   };
   onDatasetChange: (datasetId: string) => void;
   onSensorToggle: (sensor: string) => void;
@@ -138,33 +136,19 @@ export const ChartControls = ({
         ))}
       </div>
 
-      {/* Threshold Controls */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {sensorConfigs.map(sensor => (
-          <div key={sensor.key} className="space-y-2">
-            <Label className="text-sm font-medium">{sensor.label} - Seuils</Label>
-            <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1">
-                <Label className="text-xs">Alerte:</Label>
-                <Input
-                  type="number"
-                  value={thresholds[sensor.key as keyof typeof thresholds]?.warning || 50}
-                  onChange={(e) => onThresholdChange(sensor.key, 'warning', Number(e.target.value))}
-                  className="w-16 h-8 text-xs"
-                />
-              </div>
-              <div className="flex items-center gap-1">
-                <Label className="text-xs">Danger:</Label>
-                <Input
-                  type="number"
-                  value={thresholds[sensor.key as keyof typeof thresholds]?.danger || 80}
-                  onChange={(e) => onThresholdChange(sensor.key, 'danger', Number(e.target.value))}
-                  className="w-16 h-8 text-xs"
-                />
-              </div>
-            </div>
-          </div>
-        ))}
+      {/* Single Threshold Control */}
+      <div className="space-y-2">
+        <Label className="text-sm font-medium">Seuil d'alerte général</Label>
+        <div className="flex items-center gap-2">
+          <Label className="text-xs">Valeur:</Label>
+          <Input
+            type="number"
+            value={thresholds.general?.warning || 50}
+            onChange={(e) => onThresholdChange('general', 'warning', Number(e.target.value))}
+            className="w-20 h-8 text-xs"
+          />
+          <Label className="text-xs">N</Label>
+        </div>
       </div>
     </div>
   );

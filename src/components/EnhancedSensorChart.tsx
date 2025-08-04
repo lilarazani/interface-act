@@ -29,9 +29,7 @@ export const EnhancedSensorChart = () => {
   const [isRealTime, setIsRealTime] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
   const [thresholds, setThresholds] = useState({
-    sensor1: { warning: 50, danger: 80 },
-    sensor2: { warning: 45, danger: 75 },
-    sensor3: { warning: 55, danger: 85 },
+    general: { warning: 50 },
   });
   const [windowSize, setWindowSize] = useState(30); // 30 seconds window
   const [isZoomed, setIsZoomed] = useState(false);
@@ -237,13 +235,9 @@ export const EnhancedSensorChart = () => {
   };
 
   const handleThresholdChange = (sensor: string, type: 'warning' | 'danger', value: number) => {
-    setThresholds(prev => ({
-      ...prev,
-      [sensor]: {
-        ...prev[sensor as keyof typeof prev],
-        [type]: value,
-      },
-    }));
+    setThresholds({
+      general: { warning: value }
+    });
   };
 
   const handleZoom = () => {
@@ -308,25 +302,13 @@ export const EnhancedSensorChart = () => {
             />
             <Legend />
             
-            {/* Threshold lines */}
-            {Object.entries(thresholds).map(([sensor, values]) => (
-              visibleSensors[sensor as keyof typeof visibleSensors] && (
-                <g key={sensor}>
-                  <ReferenceLine
-                    y={values.warning}
-                    stroke="hsl(var(--threshold-warning))"
-                    strokeDasharray="5 5"
-                    label={`${sensor} Warning`}
-                  />
-                  <ReferenceLine
-                    y={values.danger}
-                    stroke="hsl(var(--threshold-danger))"
-                    strokeDasharray="5 5"
-                    label={`${sensor} Danger`}
-                  />
-                </g>
-              )
-            ))}
+            {/* Single threshold line */}
+            <ReferenceLine
+              y={thresholds.general.warning}
+              stroke="hsl(var(--threshold-warning))"
+              strokeDasharray="5 5"
+              label="Seuil d'alerte"
+            />
             
             {visibleSensors.sensor1 && (
               <Line
