@@ -143,11 +143,12 @@ export const ChartControls = ({
           <Label className="text-xs">Valeur:</Label>
           <Input
             type="number"
-            value={thresholds.general?.warning || 50}
+            value={thresholds.general?.warning || 2048}
             onChange={(e) => onThresholdChange('general', 'warning', Number(e.target.value))}
             className="w-20 h-8 text-xs"
+            min="0"
+            max="4095"
           />
-          <Label className="text-xs">N</Label>
         </div>
       </div>
     </div>

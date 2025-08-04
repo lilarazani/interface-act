@@ -27,7 +27,7 @@ export const SensorDisplay = ({ data, sensorConfigs }: SensorDisplayProps) => {
               <div className={`w-4 h-4 rounded-full ${sensor.bgColor} mb-2`} />
               <span className="text-sm text-muted-foreground">{sensor.label}</span>
               <Badge variant="outline" className="text-lg font-mono mt-1">
-                {value ? value.toFixed(1) : '0.0'} N
+                {value ? Math.round(value) : '0'}
               </Badge>
             </div>
           );

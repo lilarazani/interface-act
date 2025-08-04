@@ -109,9 +109,9 @@ export const EnhancedDataRecording = () => {
         return [
           timestamp,
           time,
-          (Math.random() * 100 + 20).toFixed(2),
-          (Math.random() * 80 + 30).toFixed(2),
-          (Math.random() * 90 + 10).toFixed(2)
+          Math.round(Math.random() * 4095),
+          Math.round(Math.random() * 4095),
+          Math.round(Math.random() * 4095)
         ];
       })
     ].map(row => row.join(",")).join("\n");

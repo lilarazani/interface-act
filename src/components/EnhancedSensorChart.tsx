@@ -7,13 +7,13 @@ import { useToast } from "@/hooks/use-toast";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 
-// Simulated real-time data with timestamp in milliseconds
+// Simulated real-time data with timestamp in milliseconds (0-4095 range)
 const generateRandomData = () => ({
   timestamp: Date.now(),
   time: new Date().toLocaleTimeString(),
-  sensor1: Math.random() * 100 + 20,
-  sensor2: Math.random() * 80 + 30,
-  sensor3: Math.random() * 90 + 10,
+  sensor1: Math.random() * 4095,
+  sensor2: Math.random() * 4095,
+  sensor3: Math.random() * 4095,
 });
 
 export const EnhancedSensorChart = () => {
@@ -29,7 +29,7 @@ export const EnhancedSensorChart = () => {
   const [isRealTime, setIsRealTime] = useState(true);
   const [isPaused, setIsPaused] = useState(false);
   const [thresholds, setThresholds] = useState({
-    general: { warning: 50 },
+    general: { warning: 2048 }, // Mid-range for 0-4095
   });
   const [windowSize, setWindowSize] = useState(30); // 30 seconds window
   const [isZoomed, setIsZoomed] = useState(false);
@@ -60,9 +60,9 @@ export const EnhancedSensorChart = () => {
     const initialData = Array.from({ length: 30 }, (_, i) => ({
       timestamp: Date.now() - (29 - i) * 1000,
       time: new Date(Date.now() - (29 - i) * 1000).toLocaleTimeString(),
-      sensor1: Math.random() * 100 + 20,
-      sensor2: Math.random() * 80 + 30,
-      sensor3: Math.random() * 90 + 10,
+      sensor1: Math.random() * 4095,
+      sensor2: Math.random() * 4095,
+      sensor3: Math.random() * 4095,
     }));
     setData(initialData);
     setAllData(initialData);
@@ -109,9 +109,9 @@ export const EnhancedSensorChart = () => {
       const historicalData = Array.from({ length: 50 }, (_, i) => ({
         timestamp: Date.now() - (49 - i) * 2000,
         time: new Date(Date.now() - (49 - i) * 2000).toLocaleTimeString(),
-        sensor1: Math.random() * 120 + 10,
-        sensor2: Math.random() * 100 + 20,
-        sensor3: Math.random() * 110 + 5,
+        sensor1: Math.random() * 4095,
+        sensor2: Math.random() * 4095,
+        sensor3: Math.random() * 4095,
       }));
       setData(historicalData);
     }
@@ -204,9 +204,9 @@ export const EnhancedSensorChart = () => {
         const stats = calculateMetrics();
         pdf.addPage();
         pdf.text('Métriques des capteurs:', 20, 30);
-        pdf.text(`Capteur 1 - Moyenne: ${stats.sensor1.avg.toFixed(2)}N, Médiane: ${stats.sensor1.median.toFixed(2)}N`, 20, 50);
-        pdf.text(`Capteur 2 - Moyenne: ${stats.sensor2.avg.toFixed(2)}N, Médiane: ${stats.sensor2.median.toFixed(2)}N`, 20, 70);
-        pdf.text(`Capteur 3 - Moyenne: ${stats.sensor3.avg.toFixed(2)}N, Médiane: ${stats.sensor3.median.toFixed(2)}N`, 20, 90);
+        pdf.text(`Capteur 1 - Moyenne: ${stats.sensor1.avg.toFixed(0)}, Médiane: ${stats.sensor1.median.toFixed(0)}`, 20, 50);
+        pdf.text(`Capteur 2 - Moyenne: ${stats.sensor2.avg.toFixed(0)}, Médiane: ${stats.sensor2.median.toFixed(0)}`, 20, 70);
+        pdf.text(`Capteur 3 - Moyenne: ${stats.sensor3.avg.toFixed(0)}, Médiane: ${stats.sensor3.median.toFixed(0)}`, 20, 90);
         
         pdf.save(`fsr-report-${Date.now()}.pdf`);
         
@@ -348,8 +348,8 @@ export const EnhancedSensorChart = () => {
             />
             <YAxis 
               tick={{ fontSize: 12 }}
-              label={{ value: 'Force (N)', angle: -90, position: 'insideLeft' }}
-              domain={['dataMin - 10', 'dataMax + 10']}
+              label={{ value: 'Valeur', angle: -90, position: 'insideLeft' }}
+              domain={[0, 4095]}
             />
             <Tooltip 
               contentStyle={{
