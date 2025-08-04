@@ -34,6 +34,7 @@ export const EnhancedSensorChart = () => {
   const [windowSize, setWindowSize] = useState(30); // 30 seconds window
   const [isZoomed, setIsZoomed] = useState(false);
   const [timerRunning, setTimerRunning] = useState(false);
+  const [resetTrigger, setResetTrigger] = useState(0);
   
   const chartRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
@@ -141,6 +142,7 @@ export const EnhancedSensorChart = () => {
     setOverlayDatasets([]);
     setIsZoomed(false);
     setTimerRunning(false);
+    setResetTrigger(prev => prev + 1); // Trigger timer reset
     
     toast({
       title: "Remise à zéro",
@@ -275,7 +277,7 @@ export const EnhancedSensorChart = () => {
 
       {/* Timer */}
       <div className="flex justify-center">
-        <ChartTimer isRunning={timerRunning && !isPaused} />
+        <ChartTimer isRunning={timerRunning && !isPaused} resetTrigger={resetTrigger} />
       </div>
 
       {/* Chart */}

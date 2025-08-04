@@ -4,11 +4,17 @@ import { Clock } from "lucide-react";
 
 interface ChartTimerProps {
   isRunning: boolean;
+  resetTrigger?: number;
   onTimeUpdate?: (seconds: number) => void;
 }
 
-export const ChartTimer = ({ isRunning, onTimeUpdate }: ChartTimerProps) => {
+export const ChartTimer = ({ isRunning, resetTrigger, onTimeUpdate }: ChartTimerProps) => {
   const [seconds, setSeconds] = useState(0);
+
+  // Reset timer when resetTrigger changes
+  useEffect(() => {
+    setSeconds(0);
+  }, [resetTrigger]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
