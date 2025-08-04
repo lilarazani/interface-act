@@ -9,6 +9,7 @@ import { VibrationControls } from "@/components/VibrationControls";
 import { EnhancedSensorChart } from "@/components/EnhancedSensorChart";
 import { EnhancedDataRecording } from "@/components/EnhancedDataRecording";
 import { AlertsPanel } from "@/components/AlertsPanel";
+import { HardwareConnection } from "@/components/HardwareConnection";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -61,9 +62,9 @@ const Dashboard = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-6 space-y-6">
         {/* Controls Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
           {/* Vibration Controls */}
-          <Card className="lg:col-span-1">
+          <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Settings className="h-5 w-5" />
@@ -79,7 +80,7 @@ const Dashboard = () => {
           </Card>
 
           {/* Data Recording */}
-          <Card className="lg:col-span-1">
+          <Card>
             <CardHeader>
               <CardTitle>Enregistrement des Données</CardTitle>
               <CardDescription>
@@ -91,8 +92,21 @@ const Dashboard = () => {
             </CardContent>
           </Card>
 
+          {/* Hardware Connection */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Connexion Hardware</CardTitle>
+              <CardDescription>
+                Gérez la connexion TCP avec la carte
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <HardwareConnection />
+            </CardContent>
+          </Card>
+
           {/* Alerts Panel */}
-          <Card className="lg:col-span-1">
+          <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <AlertTriangle className="h-5 w-5 text-warning" />

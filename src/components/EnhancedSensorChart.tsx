@@ -4,17 +4,9 @@ import { SensorDisplay } from "./SensorDisplay";
 import { ChartControls } from "./ChartControls";
 import { ChartTimer } from "./ChartTimer";
 import { useToast } from "@/hooks/use-toast";
+import { useHardwareConnection } from "@/hooks/useHardwareConnection";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-
-// Simulated real-time data with timestamp in milliseconds (0-4095 range)
-const generateRandomData = () => ({
-  timestamp: Date.now(),
-  time: new Date().toLocaleTimeString(),
-  sensor1: Math.random() * 4095,
-  sensor2: Math.random() * 4095,
-  sensor3: Math.random() * 4095,
-});
 
 export const EnhancedSensorChart = () => {
   const [data, setData] = useState<any[]>([]);
@@ -40,6 +32,7 @@ export const EnhancedSensorChart = () => {
   
   const chartRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
+  const { isConnected, currentData, isConnecting, connect, disconnect } = useHardwareConnection();
 
   // Historical datasets simulation
   const historicalDatasets = [
@@ -55,35 +48,37 @@ export const EnhancedSensorChart = () => {
     { key: "sensor3", label: "Capteur 3", color: "hsl(var(--sensor-3))", bgColor: "bg-sensor-3" },
   ];
 
-  // Generate initial data
+  // Initialisation - ne pas générer de fausses données
   useEffect(() => {
-    const initialData = Array.from({ length: 30 }, (_, i) => ({
-      timestamp: Date.now() - (29 - i) * 1000,
-      time: new Date(Date.now() - (29 - i) * 1000).toLocaleTimeString(),
-      sensor1: Math.random() * 4095,
-      sensor2: Math.random() * 4095,
-      sensor3: Math.random() * 4095,
-    }));
-    setData(initialData);
-    setAllData(initialData);
-    setTimerRunning(true);
+    setData([]);
+    setAllData([]);
+    setTimerRunning(false);
   }, []);
 
-  // Real-time data update
+  // Mise à jour avec les vraies données du hardware
   useEffect(() => {
-    if (!isRealTime || selectedDataset !== "current" || isPaused) return;
+    if (!isConnected || !currentData || selectedDataset !== "current" || isPaused) {
+      return;
+    }
 
-    const interval = setInterval(() => {
-      const newPoint = generateRandomData();
-      setData(prev => {
-        const newData = [...prev.slice(1), newPoint];
-        return newData;
-      });
-      setAllData(prev => [...prev, newPoint]);
-    }, 1000);
+    // Ajouter les nouvelles données réelles
+    const newPoint = {
+      timestamp: currentData.timestamp,
+      time: currentData.time,
+      sensor1: currentData.sensor1,
+      sensor2: currentData.sensor2,
+      sensor3: currentData.sensor3,
+    };
 
-    return () => clearInterval(interval);
-  }, [isRealTime, selectedDataset, isPaused]);
+    setData(prev => {
+      const newData = [...prev, newPoint];
+      // Garder seulement les 30 derniers points
+      return newData.slice(-windowSize);
+    });
+    
+    setAllData(prev => [...prev, newPoint]);
+    setTimerRunning(true);
+  }, [currentData, isConnected, selectedDataset, isPaused, windowSize]);
 
   // Auto-scaling: keep only last 30 seconds of data visible
   useEffect(() => {

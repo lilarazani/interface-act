@@ -119,6 +119,19 @@ All colors MUST be HSL.
   }
 }
 
+/* Classes utilitaires pour les couleurs de capteurs */
+.bg-sensor-1 {
+  background-color: hsl(var(--sensor-1));
+}
+
+.bg-sensor-2 {
+  background-color: hsl(var(--sensor-2));
+}
+
+.bg-sensor-3 {
+  background-color: hsl(var(--sensor-3));
+}
+
 @layer base {
   * {
     @apply border-border;
