@@ -6,8 +6,8 @@ import { Separator } from "@/components/ui/separator";
 import { LogOut, Activity, Settings, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
 import { VibrationControls } from "@/components/VibrationControls";
-import { SensorChart } from "@/components/SensorChart";
-import { DataRecording } from "@/components/DataRecording";
+import { EnhancedSensorChart } from "@/components/EnhancedSensorChart";
+import { EnhancedDataRecording } from "@/components/EnhancedDataRecording";
 import { AlertsPanel } from "@/components/AlertsPanel";
 
 const Dashboard = () => {
@@ -42,7 +42,7 @@ const Dashboard = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <img src="/lovable-uploads/b5fd8885-3945-4dc1-81dd-93ec80043a93.png" alt="Digi'Skin Logo" className="h-8 object-contain" />
+              <img src="/lovable-uploads/e8a4b987-cc7a-4e51-a01e-ac81f1690bea.png" alt="Digi'Skin Logo" className="h-12 object-contain" />
               <div>
                 <h1 className="text-xl font-semibold text-foreground">Digi&apos;Skin Monitor Dashboard</h1>
                 <p className="text-sm text-muted-foreground">
@@ -87,7 +87,7 @@ const Dashboard = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <DataRecording />
+              <EnhancedDataRecording />
             </CardContent>
           </Card>
 
@@ -119,7 +119,7 @@ const Dashboard = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <SensorChart />
+            <EnhancedSensorChart />
           </CardContent>
         </Card>
       </main>

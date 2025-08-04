@@ -66,6 +66,10 @@ export default {
 					2: 'hsl(var(--sensor-2))',
 					3: 'hsl(var(--sensor-3))'
 				},
+				threshold: {
+					warning: 'hsl(var(--threshold-warning))',
+					danger: 'hsl(var(--threshold-danger))'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
