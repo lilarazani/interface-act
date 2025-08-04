@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine, Brush } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine, Brush, ReferenceArea } from "recharts";
 import { SensorDisplay } from "./SensorDisplay";
 import { ChartControls } from "./ChartControls";
 import { ChartTimer } from "./ChartTimer";
@@ -35,6 +35,8 @@ export const EnhancedSensorChart = () => {
   const [isZoomed, setIsZoomed] = useState(false);
   const [timerRunning, setTimerRunning] = useState(false);
   const [resetTrigger, setResetTrigger] = useState(0);
+  const [zoomArea, setZoomArea] = useState({ left: null, right: null, refAreaLeft: '', refAreaRight: '' });
+  const [isSelecting, setIsSelecting] = useState(false);
   
   const chartRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
@@ -143,6 +145,7 @@ export const EnhancedSensorChart = () => {
     setIsZoomed(false);
     setTimerRunning(false);
     setResetTrigger(prev => prev + 1); // Trigger timer reset
+    setZoomArea({ left: null, right: null, refAreaLeft: '', refAreaRight: '' }); // Reset zoom
     
     toast({
       title: "Remise à zéro",
@@ -243,11 +246,59 @@ export const EnhancedSensorChart = () => {
   };
 
   const handleZoom = () => {
-    setIsZoomed(!isZoomed);
+    if (zoomArea.left && zoomArea.right) {
+      // Reset zoom if already zoomed
+      setZoomArea({ left: null, right: null, refAreaLeft: '', refAreaRight: '' });
+      setIsZoomed(false);
+    } else {
+      setIsZoomed(!isZoomed);
+    }
   };
 
   const handlePauseToggle = () => {
     setIsPaused(!isPaused);
+  };
+
+  // Zoom selection handlers
+  const handleMouseDown = (e: any) => {
+    if (e && e.activeLabel) {
+      setZoomArea(prev => ({ ...prev, refAreaLeft: e.activeLabel }));
+      setIsSelecting(true);
+    }
+  };
+
+  const handleMouseMove = (e: any) => {
+    if (isSelecting && e && e.activeLabel) {
+      setZoomArea(prev => ({ ...prev, refAreaRight: e.activeLabel }));
+    }
+  };
+
+  const handleMouseUp = () => {
+    if (isSelecting && zoomArea.refAreaLeft && zoomArea.refAreaRight) {
+      const { refAreaLeft, refAreaRight } = zoomArea;
+      
+      // Find the indices of the selected area
+      const leftIndex = data.findIndex(item => item.time === refAreaLeft);
+      const rightIndex = data.findIndex(item => item.time === refAreaRight);
+      
+      if (leftIndex !== -1 && rightIndex !== -1) {
+        const startIndex = Math.min(leftIndex, rightIndex);
+        const endIndex = Math.max(leftIndex, rightIndex);
+        
+        if (endIndex - startIndex > 1) {
+          // Zoom to selected area
+          setZoomArea({
+            left: startIndex,
+            right: endIndex,
+            refAreaLeft: '',
+            refAreaRight: ''
+          });
+          setIsZoomed(true);
+        }
+      }
+    }
+    setIsSelecting(false);
+    setZoomArea(prev => ({ ...prev, refAreaLeft: '', refAreaRight: '' }));
   };
 
   return (
@@ -283,7 +334,12 @@ export const EnhancedSensorChart = () => {
       {/* Chart */}
       <div ref={chartRef} className="h-96 w-full bg-card p-4 rounded-lg border">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={data}>
+          <LineChart 
+            data={zoomArea.left && zoomArea.right ? data.slice(zoomArea.left, zoomArea.right + 1) : data}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+          >
             <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
             <XAxis 
               dataKey="time" 
@@ -303,6 +359,17 @@ export const EnhancedSensorChart = () => {
               }}
             />
             <Legend />
+            
+            {/* Reference Area for selection */}
+            {zoomArea.refAreaLeft && zoomArea.refAreaRight && (
+              <ReferenceArea
+                x1={zoomArea.refAreaLeft}
+                x2={zoomArea.refAreaRight}
+                strokeOpacity={0.3}
+                fill="hsl(var(--primary))"
+                fillOpacity={0.1}
+              />
+            )}
             
             {/* Single threshold line */}
             <ReferenceLine
@@ -343,7 +410,7 @@ export const EnhancedSensorChart = () => {
               />
             )}
             
-            {isZoomed && (
+            {!isZoomed && !zoomArea.left && (
               <Brush dataKey="time" height={30} stroke="hsl(var(--primary))" />
             )}
           </LineChart>
