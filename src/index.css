@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Charte graphique principale - Couleurs : #2a2881 et #f4a756 */
+    /* Charte graphique mise à jour - Nouvelles couleurs */
     --background: 0 0% 100%;
     --foreground: 240 11% 4%;
 
@@ -18,20 +18,20 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 240 11% 4%;
 
-    --primary: 242 57% 33%; /* #2a2881 - Couleur principale */
+    --primary: 232 43% 39%; /* #363c8f - Bleu principal */
     --primary-foreground: 0 0% 100%;
-    --primary-hover: 242 57% 28%;
+    --primary-hover: 232 43% 34%;
 
-    --secondary: 36 100% 65%; /* #f4a756 - Couleur secondaire */
-    --secondary-foreground: 240 11% 4%;
+    --secondary: 33 89% 53%; /* #f28818 - Orange secondaire */
+    --secondary-foreground: 0 0% 100%;
 
     --muted: 210 40% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted-foreground: 0 0% 47%; /* #777 - Gris foncé */
 
-    --accent: 36 100% 65%; /* #f4a756 - Accent couleur */
-    --accent-foreground: 240 11% 4%;
+    --accent: 33 89% 53%; /* #f28818 - Orange accent */
+    --accent-foreground: 0 0% 100%;
 
-    --success: 142 76% 36%;
+    --success: 174 100% 29%; /* #009688 - Vert teal */
     --success-foreground: 0 0% 100%;
 
     --warning: 38 92% 50%;
@@ -40,14 +40,14 @@ All colors MUST be HSL.
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 242 57% 33%;
+    --border: 0 0% 60%; /* #999 - Gris clair */
+    --input: 0 0% 60%; /* #999 - Gris clair */
+    --ring: 232 43% 39%;
 
-    /* Couleurs des capteurs - basées sur la charte */
-    --sensor-1: 242 57% 33%; /* #2a2881 - Capteur 1 */
-    --sensor-2: 36 100% 65%; /* #f4a756 - Capteur 2 */
-    --sensor-3: 280 65% 55%; /* Violet pour capteur 3 */
+    /* Couleurs des capteurs - basées sur la nouvelle charte */
+    --sensor-1: 232 43% 39%; /* #363c8f - Capteur 1 */
+    --sensor-2: 33 89% 53%; /* #f28818 - Capteur 2 */
+    --sensor-3: 174 100% 29%; /* #009688 - Capteur 3 */
     
     /* Seuils et alertes */
     --threshold-warning: 38 92% 50%;
